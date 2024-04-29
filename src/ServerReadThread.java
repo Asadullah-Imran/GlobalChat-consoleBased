@@ -23,12 +23,21 @@ public class ServerReadThread implements Runnable{
             try {
                 ois = new ObjectInputStream(socket.getInputStream());
                 msg=(String)ois.readObject();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println( name+ " disconnected !");
+                Server.clientInfo.remove(socket);
+                for(Socket socket0 :Server.clientInfo.keySet()){
+                    System.out.println(Server.clientInfo.get(socket0));
+                    try {
+                        oos=new ObjectOutputStream(socket0.getOutputStream());
+                        oos.writeObject(name+": left!");
+                    } catch (IOException e2) {
+                        throw new RuntimeException(e2);
+                    }
+                }
+                e.printStackTrace();
+                break;
             }
-
             for(Socket socket0 :Server.clientInfo.keySet()){
 
                 if(socket0!=socket){
@@ -40,10 +49,7 @@ public class ServerReadThread implements Runnable{
                     }
                 }
             }
-
             System.out.println(name+" says: "+msg);
-
         }
-
     }
 }

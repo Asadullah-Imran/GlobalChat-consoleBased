@@ -5,11 +5,10 @@ import java.net.Socket;
 public class ClientReaderThread implements Runnable {
     ObjectInputStream ois;
     Socket socket;
-    public ClientReaderThread(Socket socket) throws InterruptedException {
+    public ClientReaderThread(Socket socket) {
         this.socket=socket;
         Thread thread= new Thread(this);
         thread.start();
-//        thread.join();
     }
     @Override
     public void run() {
@@ -18,13 +17,11 @@ public class ClientReaderThread implements Runnable {
                 ois = new ObjectInputStream(socket.getInputStream());
                 String msg=(String)ois.readObject();
                 System.out.println(msg);
-
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         }
-
     }
 }

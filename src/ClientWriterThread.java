@@ -5,14 +5,12 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class ClientWriterThread implements Runnable {
-
     ObjectOutputStream oos;
     Socket socket;
-    public ClientWriterThread(Socket socket) throws InterruptedException {
+    public ClientWriterThread(Socket socket) {
         this.socket=socket;
         Thread thread= new Thread(this);
         thread.start();
-//        thread.join();
     }
     @Override
     public void run() {
