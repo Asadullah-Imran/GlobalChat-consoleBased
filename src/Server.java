@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 public class Server {
     public static HashMap<Socket,String>clientInfo =new HashMap<>();
+    static String prevConversation;
     public static void main(String[] args) throws IOException {
         InetAddress localhost= InetAddress.getByName("localhost");
         ServerSocket serverSocket = new ServerSocket(8080,0,localhost );
@@ -22,6 +23,7 @@ public class Server {
             System.out.println(name+" joined");
             ObjectOutputStream oos=new ObjectOutputStream(socket.getOutputStream());
             oos.writeObject("You are "+name);
+            oos.writeObject(prevConversation);
             new ServerReadThread(socket,name);
             i++;
         }

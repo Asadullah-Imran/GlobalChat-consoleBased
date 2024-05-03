@@ -10,6 +10,7 @@ public class ServerReadThread implements Runnable{
     Socket socket;
     String  name;
     String msg;
+    String prevConversation;
     public ServerReadThread(Socket socket, String  name){
         this.name=name;
         this.socket=socket;
@@ -49,7 +50,10 @@ public class ServerReadThread implements Runnable{
                     }
                 }
             }
-            System.out.println(name+" says: "+msg);
+            String msgToSend=name+" says: "+msg;
+            System.out.println(msgToSend);
+            Server.prevConversation+="$"+msgToSend;
+
         }
     }
 }
